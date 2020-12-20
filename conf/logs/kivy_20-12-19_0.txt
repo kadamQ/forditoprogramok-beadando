@@ -1,0 +1,12 @@
+[INFO   ] Logger: Record log in D:\forditoprogramok_beadando/conf\logs\kivy_20-12-19_0.txt
+[WARNING] Config: Upgrading configuration in progress.
+[WARNING] Config: Older configuration version detected (0 instead of 21)
+[INFO   ] deps: Successfully imported "kivy_deps.angle" 0.3.0
+[INFO   ] deps: Successfully imported "kivy_deps.glew" 0.3.0
+[INFO   ] deps: Successfully imported "kivy_deps.sdl2" 0.3.1
+[INFO   ] Kivy: v1.11.1
+[INFO   ] Kivy: Installed at "C:\Users\kovad\AppData\Local\Programs\Python\Python37-32\lib\site-packages\kivy\__init__.py"
+[INFO   ] Python: v3.7.9 (tags/v3.7.9:13c94747c7, Aug 17 2020, 18:01:55) [MSC v.1900 32 bit (Intel)]
+[INFO   ] Python: Interpreter at "C:\Users\kovad\AppData\Local\Programs\Python\Python37-32\python.exe"
+[INFO   ] Factory: 184 symbols loaded
+[INFO   ] Image: Providers: img_tex, img_dds, img_sdl2, img_gif (img_pil, img_ffpyplayer ignored)
