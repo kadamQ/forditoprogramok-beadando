@@ -1,18 +1,21 @@
 import os
-
-os.environ["KIVY_NO_CONSOLELOG"] = "1"
 os.environ['KIVY_HOME'] = os.getcwd() + '/conf'
-
+os.environ["KIVY_NO_CONSOLELOG"] = "1"
 from kivy.app import App
+from kivy.config import Config
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.recycleview import RecycleView
+from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.metrics import dp
 import numpy as np
 from helper import Helper
 from stack_automaton import StackAutomaton
+Config.set("graphics", "resizable", '0')
 
 
 class MainWidget(FloatLayout):
@@ -29,15 +32,17 @@ class MainWidget(FloatLayout):
         self.rules = {}
         self.expr = TextInput(text='(3+334)*2', font_size="40sp", halign="center", padding_y=[20, 0])
         self.result = Label(text="", font_size="40sp")
+        self.recycle_view = RecycleView()
         self.create_layouts()
 
     def create_layouts(self):
         self.create_grid_layout()
         self.create_box_layout()
+        self.create_recycle_view()
 
     def create_grid_layout(self):
         grid_layout = GridLayout()
-        grid_layout.size_hint = (1, 0.85)
+        grid_layout.size_hint = (1, 0.6)
         grid_layout.pos_hint = {'top': 1}
         grid_layout.cols = self.number_of_columns
         grid_layout.rows = self.number_of_rows
@@ -90,10 +95,11 @@ class MainWidget(FloatLayout):
     def create_box_layout(self):
         box_layout = BoxLayout()
         box_layout.size_hint = (1, 0.15)
-        self.add_widget(box_layout)
+        box_layout.pos_hint = {'top': 0.4}
         box_layout.add_widget(self.expr)
         self.create_validation_button(box_layout)
         box_layout.add_widget(self.result)
+        self.add_widget(box_layout)
 
     def create_validation_button(self, box_layout):
         validate = Button(text="Validate!", id="validate", font_size="40sp")
@@ -106,6 +112,24 @@ class MainWidget(FloatLayout):
             self.result.text = "True"
         else:
             self.result.text = "False"
+        self.refresh_view(st_aut.steps)
+
+    def create_recycle_view(self):
+        recycle_box_layout = RecycleBoxLayout()
+        recycle_box_layout.default_size = (None, dp(40))
+        recycle_box_layout.default_size_hint = (1, None)
+        recycle_box_layout.size_hint_y = None
+        recycle_box_layout.orientation = 'vertical'
+        recycle_box_layout.bind(minimum_height=recycle_box_layout.setter("height"))
+        self.recycle_view.size_hint = (1, 0.24)
+        self.recycle_view.pos_hint = {'top': 0.24}
+        self.recycle_view.add_widget(recycle_box_layout)
+        self.recycle_view.viewclass = 'Label'
+        self.add_widget(self.recycle_view)
+        self.recycle_view.data = []
+
+    def refresh_view(self, data_list):
+        self.recycle_view.data = data_list
 
 
 class MainApp(App):

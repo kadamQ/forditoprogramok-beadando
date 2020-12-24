@@ -9,6 +9,8 @@ class StackAutomaton:
         self.expr = re.sub("[0-9]+", "i", "{0}#".format(expr))
         self.start_symbol = start_symbol
         self.grammar = grammar
+        self.steps = []
+        self.step = 1
         self.accepted = False
         self.solve()
 
@@ -20,6 +22,8 @@ class StackAutomaton:
             c = self.expr[index]
             top = self.automaton_stack.pop()
             helper = Helper(c, top)
+            self.steps.append({'text': str(self.step) + ". step: " + self.expr[index:] + ', Current elements in the stack: ' + str(self.automaton_stack)})
+            self.step += 1
             if c == top:
                 index += 1
                 continue
